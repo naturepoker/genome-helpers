@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+#A quick script to strip the header and all white spaces from a fasta file and return character count
+#Whitespace related processing errors happen way too often!
+
+input_seq=$1
+
+seq_length=$(cat "$1" | grep -v ">" | tr -d [:space:] | wc -c)
+
+echo "The total fasta length is $seq_length"

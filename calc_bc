@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+calculation=$1
+
+echo "scale=4; $calculation" | bc

@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+inputf=$1
+inputr=$2
+in_header=$(grep -i ">" $2)
+
+cp "$inputf" "$inputf"_aln.tmp
+
+cat "$inputr" | grep -v ">" | tr -d '[:space:]' | tr ACGTacgt TGCAtgca | rev | sed '1s/^/'"$in_header"'\n/' | sed -e '$a\' >> "$inputf"_aln.tmp
+
+muscle3 -in "$inputf"_aln.tmp -clw > "$inputf"_"$inputr".aln
+
+echo "                                                   "
+echo "                                                   "
+
+grep --color=always -i "*" "$inputf"_"$inputr".aln 
+
+matching_bases=$(grep -i "*" "$inputf"_"$inputr".aln | tr -d '[:space:]' | wc -c)
+
+echo "                                                   "
+echo "Total matching bases in alignment: $matching_bases "
+echo "                                                   "
+
+rm *.tmp
+
+

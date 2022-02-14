@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+input=$1
+input_header=$(grep -i ">" $1)
+
+cat "$input" | grep -v ">" | tr -d '[:space:]' | tr ACGTacgt TGCAtgca | rev | sed '1s/^/'"$input_header"'\n/' | sed -e '$a\' > rev_"$input"
