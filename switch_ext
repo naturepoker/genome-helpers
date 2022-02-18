@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+#Really basic quality of life script for changing file extensions in the directory
+#Takes the first argument $1 as the old extensions to target, and swaps them for the second argument $2
+#i.e. ./switch_ext fna fasta will change all .fna files to .fasta
+
+old_ext=$1
+new_ext=$2
+
+for f in *.$old_ext; do
+	mv -- "$f" "${f%.$old_ext}.$new_ext"
+done
