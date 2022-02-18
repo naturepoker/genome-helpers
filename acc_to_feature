@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+input_accession="$1"
+time=$(date +'%m%d')
+
+JoinIntoGroupsOf() { xargs -n "$@" echo | sed 's/ /,/g'; }
+
+cat "${input_accession}" | JoinIntoGroupsOf 100 | xargs -n 1 sh -c 'esearch -db nucleotide -query $0 | efetch -format ft' > "$time"_"$input_accession".feature
