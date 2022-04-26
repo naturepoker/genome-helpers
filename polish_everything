@@ -34,9 +34,9 @@ else
 	exit
 fi
 
-long_read=$(echo $2 | tr -d '\r')
-short_read_1=$(echo $3 | tr -d '\r')
-short_read_2=$(echo $4 | tr -d '\r')
+long_read=$(echo $1 | tr -d '\r')
+short_read_1=$(echo $2 | tr -d '\r')
+short_read_2=$(echo $3 | tr -d '\r')
 
 for F in *.fasta; do
 	N=$(basename $F .fasta);
