@@ -2,8 +2,13 @@
 
 #Checking for dependencies
 
+if ! command -v minimap2 > /dev/null; then
+        printf "\n Minimap2 not found in path. Exiting"
+        exit
+fi
+
 if ! command -v bwa > /dev/null; then
-	printf "\n Bwa not found in path. Exiting"
+	printf "\n BWA not found in path. Exiting"
 	exit
 fi
 
@@ -18,7 +23,7 @@ if ! command -v medaka_consensus > /dev/null; then
 fi
 
 if ! command -v polypolish > /dev/null; then
-	printf "\n Polipolish not found in path. Exiting"
+	printf "\n Polypolish not found in path. Exiting"
 	exit
 fi
 
@@ -34,18 +39,17 @@ else
 	exit
 fi
 
-threads="$1"
+threads=$1
 long_read=$(echo $2 | tr -d '\r')
 short_read_1=$(echo $3 | tr -d '\r')
 short_read_2=$(echo $4 | tr -d '\r')
 
 for F in *.fasta; do
 	N=$(basename $F .fasta);
-	bwa index $F;
-	bwa mem -t "$threads" $F "$long_read" > $N.sam;
+	minimap2 -t "$threads" -ax map-ont $F "$long_read" > $N.sam;
 	racon -m 8 -x -6 -g -8 -w 500 -t 10 "$long_read" $N.sam $F > racon_$N.fna;
 	medaka_consensus -i "$long_read" -d racon_$N.fna -o medaka_$N -t "$threads" -m r941_min_sup_g507;
-	rm $N.sam $F.amb $F.ann $F.bwt $F.pac $F.sa racon_$N.*;
+	rm $N.sam racon_$N.*;
 	if [[ $# == 4 ]]; then
 		echo "#####################################################################";
 		echo "                                                                     ";
