@@ -53,7 +53,7 @@ for F in *.fasta; do
 	if [[ $# == 4 ]]; then
 		echo "#####################################################################";
 		echo "                                                                     ";
-		echo "Short reads detected as arguments 2 and 3. Proceeding with polypolish";
+		echo "Short reads detected as arguments 3 and 4. Proceeding with polypolish";
 		echo "                                                                     ";
 		echo "#####################################################################";
 		mkdir polypolish_$N;
