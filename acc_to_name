@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+if ! command -v esearch > /dev/null; then
+  printf "\n Entrez Direct tools not found. Exiting"
+  exit
+fi
+
+input=$1
+
+single_acc_search () {
+	esearch -db assembly -query "$input" | efetch -format docsum | xtract -pattern DocumentSummary -element AssemblyAccession,Organism
+}
+
+multi_acc_search () {
+	while IFS= read -r line; do
+		echo $line > /dev/null
+		esearch -db assembly -query $line < /dev/null | efetch -format docsum | xtract -pattern DocumentSummary -element AssemblyAccession,Organism
+	done < $input
+}
+
+if [[ $input == GCF* || $input ==  GCA* ]];
+then
+	single_acc_search
+elif [[ -f $input ]];
+then
+	multi_acc_search
+else
+	echo "Please pass a genome assembly accession or a list of accessions. Exiting"
+	exit
+fi
+
