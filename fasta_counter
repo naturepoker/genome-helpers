@@ -5,6 +5,6 @@
 
 input_seq=$1
 
-seq_length=$(cat "$1" | grep -v ">" | tr -d [:space:] | wc -c)
+seq_length=$(grep -v ">" "$input_seq" | tr -d [:space:] | wc -c)
 
 echo "The total fasta length is $seq_length"
