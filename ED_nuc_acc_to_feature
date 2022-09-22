@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+if ! command -v esearch > /dev/null; then
+  printf "\n Entrez Direct tools not found. Exiting"
+  exit
+fi
+
 input_accession="$1"
 time=$(date +'%m%d')
 

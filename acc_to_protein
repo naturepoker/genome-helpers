@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-input_accession="$1"
-time=$(date +'%m%d')
-
-JoinIntoGroupsOf() { xargs -n "$@" echo | sed 's/ /,/g'; }
-
-cat "${input_accession}" | JoinIntoGroupsOf 100 | xargs -n 1 sh -c 'efetch -email "sung@binomicalabs.org" -db protein -id $0 -format fasta' > "$time"_"$input_accession".faa

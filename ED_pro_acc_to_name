@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+if ! command -v esearch > /dev/null; then
+  printf "\n Entrez Direct tools not found. Exiting"
+  exit
+fi
+
+input_accession="$1"
+#time=$(date +'%m%d')
+
+JoinIntoGroupsOf() { xargs -n "$@" echo | sed 's/ /,/g'; }
+
+cat "${input_accession}" | JoinIntoGroupsOf 100 | xargs -n 1 sh -c 'efetch -db protein -id $0 -format fasta' > "$time"_"$input_accession".faa

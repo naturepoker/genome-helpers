@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+if ! command -v esearch > /dev/null; then
+  printf "\n Entrez Direct tools not found. Exiting"
+  exit
+fi
+
+input=$1
+input_name=$(basename "$input")
+
+single_acc_search () {
+	efetch -db protein -format fasta_cds_na -id "$input" > "$input_name"_cds.fasta
+}
+
+multi_acc_search () {
+	while IFS= read -r line; do
+		efetch -db protein -format fasta_cds_na -id $line >> "$input_name"_cds.fasta
+		done < "$input"
+}
+
+if [[ -f $input ]];
+then
+	multi_acc_search
+else
+	single_acc_search
+	exit
+fi
+
