@@ -10,6 +10,11 @@ if ! command -v trimal > /dev/null; then
         exit
 fi
 
+if ! command -v FastTreeDbl > /dev/null; then
+        printf "\n FastTree not found in path. Exiting"
+        exit
+fi
+
 align_input=$(echo $1 | tr -d '\r')
 alignment_name=$(basename $1 .faa)
 
