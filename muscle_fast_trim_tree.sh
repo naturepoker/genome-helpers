@@ -22,4 +22,4 @@ muscle -align "$align_input" --output "$alignment_name".afa
 
 trimal -automated1 -in "$alignment_name".afa -out autotrim_"$alignment_name".afa
 
-FastTreeDbl -lg -slow autotrim_"$alignment_name".afa > fasttree_"$alignment_name".tree
+FastTreeDbl -lg -slow -gamma autotrim_"$alignment_name".afa > fasttree_"$alignment_name".tree
